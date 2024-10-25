@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willow's Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="home-link">
+                <i class="fas fa-arrow-left"></i> Home
+            </a>
+            <h1 class="page-title">Blog</h1>
+        </div>
+        <div class="border-bottom"></div>
+    </header>
+    
+    <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+        <section class="profile-section">
+            <div class="content-section">
+                <h2>The Chronicles of Kee Boar 1: The Smolpad</h2>
+                <p style="font-size: 15px; color: #6d6d6d;">25th October 2024</p>
+
+                <p>As a co-founder of <a href="https://www.polarityworks.com/">Polarity Works</a>, I've been able to participate in the creation of a whole bunch of very cool projects ranging from the <a href="https://www.polarityworks.com/rotr">ROTR</a> to the <a href="https://kinesis-ergo.com/keyboards/form/">Kinesis Form</a>.</p>
+                
+                <p>I've also designed a whole bunch of silly personal projects that never have any commercial prospects but were fun to do. Over the next few weeks and months, I'll be writing up some of the projects. Some commercial projects I'm contractually unable to discuss in great detail, but the personal ones are fair game. As a big believer in open hardware and software, most of my personal projects that I'm not too ashamed to share are open source on <a href="https://www.github.com/ReFil">my GitHub</a>.</p>
+                
+                <p>I'm starting with one of the daftest projects I've ever created (because it was the most recent one I did). I call it the Smolpad, because it's so smol!</p>
+                
+                <h3>The Concept</h3>
+                <p>Shortly after they were released, I got my hands on a few sample <a href="https://www.cherry.co.uk/mx-ulp-click">Cherry MX ULP</a> switches with their demo clear keycaps. Without much of a use, they sat in a box for a few years until I had an idea: make the smallest one-key macropad I could with this switch.</p>
+                <p>The Type C connector is usually the tallest component on the board, 3-4mm for a standard top mount one. There are mid-mount ones and other weird footprints, but since only one or two of these are going to be made, taking inspiration from projects I'd seen like the <a href="https://hackaday.io/project/192207-crapi2040">CRAPi2040</a>, I thought I'd try and use a substrate PCB connector.</p>
+
+                <p>Whilst wireless keyboards with the nRF52840 are my bread and butter, I'm always interested in trying new things, and given the space limitations under the board, I went for an Atmel SAMD21E17A. It's a QFN chip with a built-in oscillator, so you only need a 3.3V regulator and 4 external passives to run the show. Unlike the RP2040, you can use USB with the internal oscillator, so you have a very small overall footprint. Annoyingly, SAMD21s are kinda expensive, which definitely tips the scales in favor of the RP2040 for most projects.</p>
+                
+                <h3>Designing</h3>
+                <p>Like most of my designs, this one was created in KiCad (I've long since moved away from EAGLE after being taught it during my degree).</p>
+                
+                <p>The PCB Type C connector was created by settinger in <a href="https://github.com/settinger/USB-C_PCB_experiments">this library</a>.</p>
+                                
+            </div>            
+            
+            
+        </section>
+    </div>
+
+</body>
+</html>
