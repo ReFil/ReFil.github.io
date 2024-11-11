@@ -45,19 +45,19 @@
                 
                 <p>The PCB Type C connector was created by settinger in <a href="https://github.com/settinger/USB-C_PCB_experiments">this library</a>. It needed some tweaks to work in the application, so I could join it onto the rest of the PCB, the way I did this was probably very sketchy but the outline filled out properly and KiCad didn't throw any errors so I sent it. </p>
 
-                <p><img src="images/blog-2/pcbtypec.png" alt="Modified substrate Type C connector"></p>
+                <p><center><img style="width: 100%; max-width: 100%;" src="images/blog-2/pcbtypec.png" alt="Modified substrate Type C connector"></center></p>
 
                 <p>For SWD/debugging connectors previously I'd used a 1.27mm pitch pin header with some little alligator clips, but that grew old really quickly getting the pinout right and holding the thing in place and not having it pop off halfway through programming so recently I've been using the Tag Connect connector more, it's much smaller, the pinout is standardised and with the little clips you can use to hold the 2030-NL variant in place you can do long debugging sessions without a concern. The issue is it requires through holes on the board for the locating pins, and the top side is completely covered by the switch so the solution was a little snap off "wing" the connector can be placed on for flashing the bootloader.</p>
 
-                <p><img src="images/blog-2/tagconnectwing.png" alt="TagConnect header on a snap off wing"></p>
+                <p><center><img style="width: 100%; max-width: 100%;" src="images/blog-2/tagconnectwing.png" alt="TagConnect header on a snap off wing"></center></p>
 
                 <p>The PCB would be a little boring if it was just a switch. The SK6812-EC15 RGB LEDs are so tiny I had to fit a few on the board, one in each corner and one under the switch for good measure. I made a little bit of a mistake here and ran them off 3.3V, which is a little out of spec,not sure what I was thinking as I never usually do that.</p>
 
                 <p>Given a theme of this board is miniaturisation a SOT23 voltage regulator would be by far the tallest component on the board. A properly minute LDK130PU33R was chosen instead, I didn't really have any strong criteria, just small and powerful enough. I also eschewed a physical reset button in favour of some solder pads, and added some extra solder pads because they could be handy.</p>
 
-                <p><img src="images/blog-2/finalpcb.png" alt="Final PCB Design"></p>
+                <p><center><img style="width: 100%; max-width: 100%;" src="images/blog-2/finalpcb.png" alt="Final PCB Design"></center></p>
 
-                <p><img src="images/blog-2/smolpadrener.png" alt="Render of the Final PCB"></p>
+                <p><center><img style="width: 100%; max-width: 100%;" src="images/blog-2/smolpadrener.png" alt="Render of the Final PCB"></center></p>
 
                 <h3>Assembling</h3>
                 
@@ -67,7 +67,7 @@
 
                 <p>I accidentally melted one of the switches with the hot air, this was a very tricky job to get right (and I only had a total of 3 switches) but I ended up making it all work.</p>
 
-                <p><img src="images/blog-2/pcbs.png" alt="Unpopulated PCBs"></p>
+                <p><center><img style="width: 100%; max-width: 100%;" src="images/blog-2/pcbs.png" alt="Unpopulated PCBs"></center></p>
 
                 <h3>Firmware</h3>
 
@@ -75,11 +75,11 @@
 
                 <p>The board didn't work with regular USB cables, it would short the contacts on any power supply i tried, I suspect this is because I left the copper on the back side of the "connector" and the contacts were shorting through the soldermask. I solved this by making a custom cable without the back side contacts, not the most professional solution but works well enough for this little fun project. Next time I'll make sure to add a restriction so the area wont be filled, as a bonus it'll make the pcb a hair thinner which should make the fitment a bit better.</p>
 
-                <p><img src="images/blog-2/completedcable.png" alt="Initial type C breakout to make it work"></p>
+                <p><center><img style="width: 100%; max-width: 100%;" src="images/blog-2/completedcable.png" alt="Initial type C breakout to make it work"></center></p>
 
                 <p>It was at this point I'd discovered my mistake with the LEDs, the first LED in the chain wasn't quite right, usually it was completely dead but sometimes it would freak out a bit, I'm not sure if this was a SAMD21 specific thing or because I was running the LEDs off 3.3v. I've never had any issues with these LEDs with 3.3v SPI signals before on nRF52 and RP2040 even though it's not really allowed but either way I wasn't going to build another one of these so I just left it. If you hold down the switch sometimes the first LED goes to full brightness white so it's not just off. It acts as a level shifter for the LEDs after it either way so the other four LEDs worked fine.</p>
                 
-                <p><img src="images/blog-2/bright.png" alt="Smolpad PCB with lighting on"></p>
+                <p><center><img style="width: 100%; max-width: 100%;" src="images/blog-2/bright.png" alt="Smolpad PCB with lighting on"></center></p>
             </div>            
             
             
