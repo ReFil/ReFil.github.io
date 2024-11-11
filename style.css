@@ -130,7 +130,7 @@ body {
     text-decoration: underline;
 }
 
-@media (max-width: 100%) {
+@media (max-width: 768px) {
     .container, .container2 {
         width: 100%;
     }
