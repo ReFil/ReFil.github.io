@@ -24,14 +24,12 @@
     <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
         <section class="profile-section">
             <div class="content-section">
-                <h2>The Chronicles of Kee Boar 1: The Smolpad</h2>
+                <h2>The Chronicles of Keeb 1: The Smolpad</h2>
                 <p style="font-size: 15px; color: #6d6d6d;">11th November 2024</p>
 
                 <p>As a co-founder of <a href="https://www.polarityworks.com/">Polarity Works</a>, I've been able to participate in the creation of a whole bunch of very cool projects ranging from the <a href="https://www.polarityworks.com/rotr">ROTR</a> to the <a href="https://kinesis-ergo.com/keyboards/form/">Kinesis Form</a>.</p>
                 
-                <p>I've also designed a whole bunch of silly personal projects that never have any commercial prospects but were fun to experiment and learn with. Most of my personal projects that I'm not too ashamed to share are open source on <a href="https://www.github.com/ReFil">my GitHub</a>.</p>
-                
-                <p>I'm starting with one of the daftest projects I've ever created (because it was the most recent one I did). I call it the Smolpad, because it's so smol!</p>
+                <p>I've also designed a whole bunch of silly personal projects that never have any commercial prospects but were fun to experiment and learn with. Most of my personal projects that I'm not too ashamed to share are open source on <a href="https://www.github.com/ReFil">my GitHub</a>, including this one, which I call it the Smolpad, because it's so smol!</p>
                 
                 <h3>The Concept</h3>
                 <p>Shortly after they were released, I got my hands on a few sample <a href="https://www.cherry.co.uk/mx-ulp-click">Cherry MX ULP</a> switches with their demo clear keycaps. Without much of a use, they sat in a box for a few years until I had an idea: make the smallest one-key macropad I could with this switch.</p>
@@ -65,21 +63,23 @@
 
                 <p>Because this pcb has components on both sides I had to really think about the assembly sequence, the LED that lives under the switch makes it even trickier because you can't see if it's been reflowed right, and you can't really do the switch after then because it won't sit flat. I elected to reflow the back side on a hotplate, then hold it in a PCB holder and reflow the switch and top side LED with a hot air gun.</p>
 
-                <p>I accidentally melted one of the switches with the hot air, this was a very tricky job to get right (and I only had a total of 3 switches) but I ended up making it all work.</p>
+                <p>I accidentally melted one of the keycaps I had with the hot air, not my best decision to try reflowing the switch with the keycap on.</p>
 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-2/pcbs.png" alt="Unpopulated PCBs"></center></p>
 
                 <h3>Firmware</h3>
 
-                <p>Like all my projects this runs ZMK, I know the codebase and the board definition mechanics and it's really easy for me to get up and running with a new board. I gave this board the latest and greatest at time of assembly and gave it a ZMK Studio (Runtime keymap editing) enabled firmware. The board definition can be found <a href="https://github.com/ReFil/samd21pad-zmk-module">here</a>. I forked a known working board definition to get going.</p>
+                <p>Like all my projects this runs ZMK, I know the codebase and the board definition mechanics and it's really easy for me to get up and running with a new board. I gave this board the latest and greatest at time of assembly and gave it a ZMK Studio (Runtime keymap editing) enabled firmware. The board definition can be found <a href="https://github.com/ReFil/samd21pad-zmk-module">here</a>. I forked a known working SAMD21 board definition to get going.</p>
 
-                <p>The board didn't work with regular USB cables, it would short the contacts on any power supply i tried, I suspect this is because I left the copper on the back side of the "connector" and the contacts were shorting through the soldermask. I solved this by making a custom cable without the back side contacts, not the most professional solution but works well enough for this little fun project. Next time I'll make sure to add a restriction so the area wont be filled, as a bonus it'll make the pcb a hair thinner which should make the fitment a bit better.</p>
+                <p>The board didn't work with regular USB cables, it would short the contacts on any power supply I tried, I suspect this is because I left the copper on the back side of the "connector" and the contacts were shorting through the soldermask. I solved this by making a custom cable without the back side contacts, not the most professional solution but works well enough for this little fun project. If I ever do this again I'll make sure to add a restriction so the area wont be filled, as a bonus it'll make the pcb a hair thinner which should make the fitment a bit better.</p>
 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-2/completedcable.png" alt="Initial type C breakout to make it work"></center></p>
 
                 <p>It was at this point I'd discovered my mistake with the LEDs, the first LED in the chain wasn't quite right, usually it was completely dead but sometimes it would freak out a bit, I'm not sure if this was a SAMD21 specific thing or because I was running the LEDs off 3.3v. I've never had any issues with these LEDs with 3.3v SPI signals before on nRF52 and RP2040 even though it's not really allowed but either way I wasn't going to build another one of these so I just left it. If you hold down the switch sometimes the first LED goes to full brightness white so it's not just off. It acts as a level shifter for the LEDs after it either way so the other four LEDs worked fine.</p>
                 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-2/bright.png" alt="Smolpad PCB with lighting on"></center></p>
+
+                <p>The lighting and everything worked very well, the board was really not very troublesome at all compared to some other projects. It's definitely fairly useless but I like fairly useless things, good fun to just press "a" with.</p>
             </div>            
             
             
