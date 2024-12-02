@@ -271,6 +271,7 @@ body {
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: 1fr; /* 1 column for mobile */
+        padding: 0px;
     }
 }
 
