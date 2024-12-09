@@ -279,3 +279,10 @@ body {
     width: max-content;
     margin: auto;
 }
+
+.footertext {
+    text-align: center;
+    font-size: 8px;
+  padding: 3px;
+  color: black;
+}
