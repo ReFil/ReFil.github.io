@@ -121,9 +121,14 @@ body {
     margin-bottom: 15px;
 }
 
-.blog-list {
-    padding: 0;
-    margin: 28px 0;
+.content-section ul {
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+
+.content-section ol {
+    margin-bottom: 15px;
+    margin-left: 28px;
 }
 
 .highlight-link a {
