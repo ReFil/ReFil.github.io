@@ -121,6 +121,16 @@ body {
     margin-bottom: 15px;
 }
 
+.content-section ul {
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+
+.content-section ol {
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+
 .highlight-link a {
     color: #007bff;
     text-decoration: none;
