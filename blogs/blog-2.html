@@ -34,14 +34,14 @@
                 <h3>The Concept</h3>
                 <p>Shortly after they were released, we got our hands on a few sample <a href="https://www.cherry.co.uk/mx-ulp-click">Cherry MX ULP</a> switches with their demo clear keycaps. Without much of a use, they sat in a box for a few years until I had an idea: make the smallest one-key macropad I could with this switch.</p>
 
-                <p>The Type C connector is usually the tallest component on the board, 3-4mm for a standard top mount one. There are mid-mount ones and other weird footprints, but since only one or two of these are going to be made, taking inspiration from projects I'd seen like the <a href="https://hackaday.io/project/192207-crapi2040">CRAPi2040</a>, I thought I'd try and use a substrate PCB connector.</p>
+                <p>The Type C connector is usually the tallest component on a board, 3-4mm for a standard top mount one. There are mid-mount ones and other weird footprints, but since only one or two of these are going to be made, taking inspiration from projects I'd seen like the <a href="https://hackaday.io/project/192207-crapi2040">CRAPi2040</a>, I thought I'd try and use a substrate PCB connector.</p>
 
-                <p>Whilst wireless keyboards with the nRF52840 are my bread and butter, I'm always interested in trying new things, and given the space limitations under the board, I went for an Atmel SAMD21E17A. It's a QFN chip with a built-in oscillator, so you only need a 3.3V regulator and 4 external passives to run the show. Unlike the RP2040, you can use USB with the internal oscillator, so you have a very small overall footprint. Annoyingly, SAMD21s are kinda expensive, which definitely tips the scales in favor of the RP2040 for most projects.</p>
+                <p>Whilst wireless keyboards with the nRF52840 are my bread and butter, I'm always interested in trying new things, and given the space limitations under the board, I went for an Atmel SAMD21E17A. It's a QFN chip with a built-in oscillator, so you only need a 3.3V regulator and 4 external passives to run the show. Unlike the RP2040, you can use USB with the internal oscillator, so you have a very small overall footprint. Annoyingly, SAMD21s are kinda expensive, which definitely tips the scales in favor of the RP2040 for most projects. It's so much more capable for a lot less money.</p>
                 
                 <h3>Designing</h3>
                 <p>Like most of my designs, this one was created in KiCad (I've long since moved away from EAGLE after being taught it during my degree). I've been using a KiBot script lately for automated manufacturing file export, that generates a whole load of useful files for both hand assembly for prototypes and personal products, and factory files for mass production for customer projects. It picks up project names and part numbers from a metadata file as well as Git versioning information and populates silk on the PCB with it seamlessly which is very useful when handling multiple board revisions.</p>
                 
-                <p>The PCB Type C connector was created by settinger in <a href="https://github.com/settinger/USB-C_PCB_experiments">this library</a>. It needed some tweaks to work in the application, so I could join it onto the rest of the PCB, the way I did this was probably very sketchy but the outline filled out properly and KiCad didn't throw any errors so I sent it. </p>
+                <p>The PCB Type C connector was created by settinger in <a href="https://github.com/settinger/USB-C_PCB_experiments">this library</a>. It needed some tweaks to work in the application, so I could join it onto the rest of the PCB, the way this was done was probably very sketchy but the outline filled out properly and KiCad didn't throw any errors so I sent it. </p>
 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-2/pcbtypec.png" alt="Modified substrate Type C connector"></center></p>
 
@@ -49,7 +49,7 @@
 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-2/tagconnectwing.png" alt="TagConnect header on a snap off wing"></center></p>
 
-                <p>The PCB would be a little boring if it was just a switch. The SK6812-EC15 RGB LEDs are so tiny I had to fit a few on the board, one in each corner and one under the switch for good measure. I made a little bit of a mistake here and ran them off 3.3V, which is a little out of spec, not sure what I was thinking as I never usually do that.</p>
+                <p>The PCB would be a little boring if it was just a switch. The SK6805-EC15 RGB LEDs are so tiny I had to fit a few on the board, one in each corner and one under the switch for good measure. I made a little bit of a mistake here and ran them off 3.3V, which is a little out of spec, not sure what I was thinking as I never usually do that.</p>
 
                 <p>Given a theme of this board is miniaturisation a SOT23 voltage regulator would be by far the tallest component on the board. A properly minute LDK130PU33R was chosen instead, there werent really any strong criteria, just small and powerful enough. I also eschewed a physical reset button in favour of some solder pads, and added some extra solder pads connecting to random I/O because they could be handy.</p>
 
@@ -79,7 +79,7 @@
                 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-2/bright.png" alt="Smolpad PCB with lighting on"></center></p>
 
-                <p>The lighting and everything worked very well, the board was really not very troublesome at all compared to some other projects. It's definitely fairly useless but I like fairly useless things, good fun to just press "a" with. If you want to make your own the design files can be found <a href="https://github.com/ReFil/smolpad">here</a>. Note it really wants tweaking, changing the type c connector to have no copper on the back and a level shifter for the LEDs.</p>
+                <p>The lighting and everything worked very well, the board was really not very troublesome at all compared to some other projects. It's definitely fairly useless but fairly useless things can be cool, good fun to just press "a" with. If you want to make your own the design files can be found <a href="https://github.com/ReFil/smolpad">here</a>. Note it really wants tweaking, changing the type c connector to have no copper on the back and a level shifter for the LEDs.</p>
             </div>            
             
             
