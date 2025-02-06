@@ -27,6 +27,21 @@
                 <h2>The Chronicles of Keeb 3: The CRBN Evo</h2>
                 <p style="font-size: 15px; color: #6d6d6d;">11th November 2024</p>
 
+                <p>The CRBN was the first Polarity Works project we delivered (We started the group buy of the ROTRs before then). It was a dinky little 40% ortho with a carbon fibre stacked plate construction. It held a Pro Micro or pro micro compatibile microcontroller, a lot of throughhole diodes and not much else, but it was solid. It was a great learning experience for fulfilling products (counting screws and standoffs got very old very fast). It also has the distinction of being the only Polarity Works project supported by QMK, as we ended up moving to ZMK shortly after. </p>
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="The Polarity Works CRBN"></center></p>
+
+                <p>A few years ago we also designed what we called the CRBN Evo, using a 1.2mm thick battery we originally sourced for the BT60 V2, a positively microscopic insight ISP1807 module, hotswap sockets and low profiles switches with single colour backlighting. With some work louder keycaps it ended up being xmm thick (if you exclude the screw heads :P). It's actually usable too, when I go on holiday i usually grab it and work on it. Tech has moved on though, there's ULP switches, cheaper one-off automated assembly and we've learnt a whole load of new tricks in the meantime.  </p>
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="The CRBN EVO"></center></p>
+
+                <h3>Designing</h3>
+                <p>Designing one-off boards frees you from a lot of the constraints that are typical of projects where you need to consider layout flexibility, costs, assembly difficulties, wireless certification and the far more important question of if people are actually going to buy it. With ULP switches there's not really any option for layout flexibility as they're all soldered right on. The footprint restrictions of this pcb kind of necessitate throwing the module manufacturers recommended layout suggestions out the window, there's no physical space for a large uninterrupted keepout area and an aluminium case is going to be millimeters away from this no matter what.  </p>
+
+                <p>Minimising thickness is the goal, and that imposes a huge amount of constraints that have to be considered at every stage of the design process. Whilst some compromises can be made in some places, others are just plain unwise. This board will have a type C port despite the fact a micro USB would help keep the height down. A mid mount PCB mount connector buries itself into the PCB, which can help keep the stack height down, although it does put a cutout under the PCB, and the ULP switches are mounted with solder pads in the top corners which does lead to some issues. </p>
+
+                <p>The ULP switches have a little cutout inside them that's intended for per key lighting, but it's a decent size little space so you can fit a lit more than just an LED in there. I managed to fit an LED, LED current limiting resistor and an 0603 footprint switch diode all inside that space. This means the majority of the back side of the pcb can be completely bare of components, so they're not taking up valuable Z height we can pack a battery into.</p>
+
+                <p>Holding the PCB into the case is another thing that needs consideration. There's two main options when most of the top side of the board has switches soldered down onto it, either expanding the outline and securing it around the edge or using solder down screw posts. Both have their advantages and disadvantages, soldered down screw posts suitable for a board this thin are hard to find, and expanding the outline is a bit of a copout. It might just be possible to sneak some m1.6 screws between the keys, which should do a good enough job of holding things in place combined wiht a bit of a ledge on the case to register the board snugly into.</p>
+
                 
                           
             </div>            
