@@ -80,11 +80,27 @@
 
                 <p>Because of the type C contacts these PCBs needed to be ordered in ENIG finish, I decided to try 0.6mm too as that's closer to the right side of the spec and it wouldn't be ideal if this pcb damaged users cables. The specs of these pcbs made them rather costly to order, so a few prototypes were ordered in conventional green soldermask to ensure everything is fine before an expensive mass production run.</p>
 
-                <h3>Wheel maths</h3>
-                
-                <a href="https://link">Link text</a>
+                <p>When the PCBs turned up I impatiently bodged a different voltage regulator into the board and started testing, and very quickly ran into some issues. It wouldn't negotiate over a USB C to C cable for 5v correctly, indicating the CC pin wasn't making the correct connection. I first blamed the connector itself, and tried adding solder to the pads to give them some bumps for the cable to connect to, and adding tape on the back to make it more secure in the cable. Neither of these tricks made any difference, so I hooked up an A to C instead so it would get power, flashed the in progress firmware and found that it wouldn't enumerate over USB either. Dmesg logs showed it was trying to enumerate, so the contacts were definitely making some contact, but it still wasn't playing ball. The problem turned out to be that I'd managed to get the connector fully mirrored, so CC was in the Vconn pin position and D+ and D- were swapped. After running a bodge wire for the 1.5k pullup to signal device presence it worked spot on and I could progress to testing the buttons and developing the wheel logic.</p>
 
-                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="Alt text"></center></p>
+                <h3>Wheel maths</h3>
+
+                <p>The fundamental logic of the wheel is that each position on the wheel has a unique combination of areas of two of the three electrodes, apart from the positions where the finger is directly on top of one of the electrodes. Therefore by sampling the values of all three electrodes once you can determine if a finger is present, and if so what position on the wheel the finger is at. By repeatedly polling the wheel the previous angle can be compared to the current angle and if the angle has changed beyond a set sensitivity in one direction, add a consumer key event to the queue, if its going in the other direction add a different event to the queue.</p>
+
+                <p>The firmware samples all three electrodes and sums them. If this sum is above a defined value it's determined that a finger is present on the dial if then enters the angle determining routine. Each electrode value is normalised against the sum, then two paires of three conditions are evaluated. The first set of conditions evaluate which 120 degree sector the finger is in by checking which pair of electrodes is measuring some contact. Within each sector the angle is determined by only one of the electrodes, it's just linearly scaled from 0 to 120 based on the value of the electrode. These original checks will fail if the finger is exclusively on a single electrode however, so the additional conditions set the angle to 0, 120 or 240 if the finger is exclusively within the approproate electrode.</p>
+
+                <p>There are some issues with the state of the wheel logic as is. Currently it's a bit noisy, and it has some linearity issues, especially around where te finger crosses into the region solely occupied by one electrode. This manifests as general inconsistency in the behaviour, sometimes sending the wrong direction pulse, sometimes having an inconsistent angle reponse. It may be more suited for D-Pad or something along those lines but it works well enough as is.</p>
+
+                <h3>Finishing touches</h3>
+
+                <p>After some testing I found the central button in the middle of the dial was prone to being triggered accidentally when using the wheel, so that had to be disabled. A future option could be to treat the whole dial as a button and if it's tapped trigger the mute action. Also the other buttons were rather prone to being triggered with the sensitivity originally chosen, so that needed decreasing a bit to make things more reliable. </p>
+
+                <h3>Source</h3>
+
+                <p>Source files for the board and the (fully customisable) firmware for the business card can be found <a>here</a>. I went through and removed all the text from the back of the card before pushing to GitHub, I'm not keen on doxxing myself to anyone who stumbles upon my GitHub repo. If you are sufficiently cool and find me in person maybe I'll give you a card! I'm planning to attend WHY2025 and maybe 39c3 at the end of the year too.</p>
+            
+                <h3>Future tweaks</h3>
+
+                <p>Whilst it's perfectly functional as is, there's definitely a lot more that can be done. Currently the SAO header, both the I2C and GPIO are unused, so at some point I'll develop that functionality. There's also different modes, using the wheel as a D-Pad or perhaps even a crude joystick using the value from the center button to determine position out from the center as well as general improvements to debouncing and angle estimation. At some point I want to rework how the HID works so it only sends a report when something changes instead of hammering the endpoint, but that might take a bit more fiddling before it's reliable.</p>
 
             </div>            
             
