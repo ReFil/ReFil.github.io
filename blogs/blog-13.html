@@ -64,7 +64,7 @@
                 <p>After getting the encoder configured in the code I started having issues with the buttons, my first thought was broken wires in the cable connecting the controls to the ch32 board, but it ended up being the encoder signal pulling down the row pins for the key matrix. This was fixed by configuring the encoder drive pin as floating after every encoder read. The encoder pulses get turned into short button presses, as the stereo doesn't have the ability to interpret encoders by default. The stereo has some sort of built in debouncing, which didn't present an issue for the buttons, but the short pulses for encoder channels were too short, so I added an additional 50ms delay to encoder pulses and it worked fine after that. </p>
 
                 <h3>Source</h3>
-                If you're intersting in using this setup on your own Renault the code can be found <a href="https://github.com/ReFil/renault-swc-interpreter">here</a>. It's a little light on instructions, this wasn't a project intended to be copied, I just wanted to solve a problem I encountered.
+                If you're intersting in using this setup on your own Renault the code can be found <a href="https://github.com/ReFil/renault-swc-interpreter">here</a>. It's a little sparse on instructions, this wasn't a project intended to be copied, I just wanted to solve a problem I encountered. Basically just make the connections to the ch32 defined in button_read.c and x9c10x.h and give it power and it should work.
             </div>            
             
             
