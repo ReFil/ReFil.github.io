@@ -55,6 +55,15 @@
 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-9/pcbwithcoil.png" alt="Unrouted PCB with coil antenna"></center></p>
 
+                <p>Whilst i was working on this i was worried i'd screw up the antenna and it would suck, so I made the plan to change for an inductor antenna, specificallt this one from TE. It took a little bit of fiddling, and some matching circuitry as the input capacitance of the NTAG I2C was higher than the antenna was intended for, but I figured it'd work if i remembered some of my first year uni courses. RF stuff really isn't my forte, so this idea of outsourcing the difficult bit definitely appealed </p>
+
+                <h3>Final PCB and finishing touches</h3>
+                <p>The PCBs came from JLC, I ordered them assembled because I don't have the time to assemble boards myself anymore. They couldn't get the antenna quickly, so I ordered that separately from LCSC and soldered that and the front 0402 LED on myself, loaded the firmware (using the nifty tag connect adapter I designed a few months back) and gave it a go. It kind of worked, but the I2C bus connection to the NFC IC didn't work and the sensing of the fingers didn't work either. The antenna worked as well as could be expected for the size, it managed to power up the board and get the LED to blink. I wrote a couple data packets using my phone and had a very cool custom NFC tag, but I endeavoured to fix the self-modification.</p>
+
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-9/newtag.jpg" alt="Assembled PCB with indictor antenna"></center></p>
+
+
+                <p>To solve the finger sensing problem I tried to remove the 10k series resistors on the two sense electrodes and use digital sensing instead like I did on my business card, where shorting out two contacts with a wetted finger was adequate to trigger it but that didn't do the trick, so I just bodged a couple small buttons in place instead. To solve the I2C issue i hooked it up to a logic analyser to see what was happening. </p>
                 
                 <a href="https://link">Link text</a>
 
