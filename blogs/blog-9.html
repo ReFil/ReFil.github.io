@@ -25,7 +25,7 @@
         <section class="profile-section">
             <div class="content-section">
                 <h2>Bank switching NFC Keyring tags with the CH32V003</h2>
-                <p style="font-size: 15px; color: #6d6d6d;">DATE</p>
+                <p style="font-size: 15px; color: #6d6d6d;">6th October 2025</p>
                 <h3>Concept</h3>
 
                 <p>Whilst one day I hope to get a Dangerous things NFC implant there's some limitations with them. Them being implanted means you can't physically access it, and I like the idea of having an NFC tag with multiple profiles for different NDEF formatted contact information. So I've been bouncing the idea of a custom PCB NFC keychain around my head for a while thinking of how I was going to do it. My first thought was put an nRF52840 in it and use it's built in NFC hardware, but that would be costly and complicated, then I thought of just using an NXP NTAG IC and reprogramming it each time, but that's boring and fairly limiting. The breakthrough came after having a play with the CH32V003 in the <a href="blog-7.html">PCB business card</a> project. Some NTAG chips can act as an I2C EEPROM, whilst also doing energy harvesting, so the idea is an NFC tag with switchable "banks", the end user can swap around by energising it on their phone and physically interacting with the device somehow. </p>
