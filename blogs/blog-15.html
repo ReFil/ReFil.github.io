@@ -24,24 +24,15 @@
     <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
         <section class="profile-section">
             <div class="content-section">
-                <h2>Prepping a car for the Twing Raid Part 1: Prepping and Electrical</h2>
+                <h2>DVLA MOT Checker Bot</h2>
                 <p style="font-size: 15px; color: #6d6d6d;">DATE</p>
-                <p>The Twing Raid is an event where you and 249-299 other teams grab a first generation Renault Twingo and send it from San Sebastien in Spain all the way down into Morocco, around the Moroccan desert and back to Spain over the course of two weeks. It looks like an incredible adventure. I first learnt about it in an article in <a href="https://www.thedrive.com/news/theres-a-2500-mile-dakar-style-rally-thats-only-for-the-renault-twingo">The Drive</a>, then I sent the srticle to my best friend, who responded with "We should do that", and in my infinite wisdom I decided to go onto the Twing Raid website and book tickets for the 2026 running there and then. This was despite not having any sort of plan, not speaking a word of french (it's run by a french travel agency and seems to be a primarily french event) and definitely not having a twingo, which wasn't even sold in the UK originally.</p>
+                <p>My friends and I have a long and colourful history with various automotive shitboxes, and often we want to follow their journeys after they depart our custody. Usually this takes the form of putting it through the <a href="">GOV.UK MOT checker website</a> whenever we remember but I thought it would be more fun to have a little bot that sends out an email when a car on our list has its mot about to expire, when it has an MOT and with the information on whether it failed or passed (and how badly it failed, if it failed).</p>
 
-                <p>We're slowly preparing the car for the run in Febuary next year, there's a lot to do, including a lot of administrative tasks as well as the more fun task of building the car. There's a lot to learn (including french!) and a long list of tasks, but just as important as doing the work itself is how to approach a project as massive as this, what systems to use, how to decide what to do when, and when important deadlines are. It's pointelss havving the Rolls-Royce of offroading twingos if we're 2 weeks late to the start line</p>
+                <p>It turns out that the DVLA MOT checker has an accessible API, you just have to fill out a form to request access to it, it's not even paid or anything, so I started looking more seriously into this. I've also wanted to do some proper projects in Rust, so this seemed like as good a project as any to properly learn rust on.</p>
 
-                <h3>Preparation and Organisation</h3>
-                <p>Step 1 is figure out what you have to do to get to an off road twingo. We booked the tickets in April 2024 so had lots of time. I'm personally a fan of using Trello boards to organise a project like this, but everyone has their own organisational tools</p>
+                <h3>Services</h3>
+                <p>This app is a fairly simple affair but there's a few things I wanted it to be able to do, it needs to run inside a docker container so other people can spin it up easily, it needs to be easily configurable for other people's shitboxes and emails, and</p>
 
-                <h3>Bureaucracy</h3>
-                <p>A lot of this depends on the country you're from, their relationship with Morocco and several other factors but the maint hings you have to consider can be split into two categories. You and the car. On your side you may need a visa, vaccines </p>
-
-                <h3>Usability</h3>
-                <p>Body text</p>
-
-                <h3>Electrical mods</h3>
-                <p>Body text</p>
-                
                 <a href="https://link">Link text</a>
 
                 <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="Alt text"></center></p>
