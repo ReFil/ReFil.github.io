@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willow's Website</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="/index.html" class="home-link">
+                <i class="fas fa-arrow-left"></i> Home
+            </a>
+            <h1 class="page-title">Blog</h1>
+        </div>
+        <div class="border-bottom"></div>
+    </header>
+    
+    <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+        <section class="profile-section">
+            <div class="content-section">
+                <h2>Configuring CUPS in TrueNAS SCALE</h2>
+                <p style="font-size: 15px; color: #6d6d6d;">DATE</p>
+                <p>I've been working on setting up a little HP Microserver Gen8 as a NAS, media server and little selfhosted services box, and recently spent a while getting my USB printer hosted and connected to it so I can remotely print from any pc on the LAN without the hassle of taking the printer to my pc or vice versa, hooking it up and dealing with weird driver issues. I eventually got it working but it took more time and suffering than it frankly should have done so I figured I'd document my suffering for the next poor soul frantically googling "CUPS Truenas" trying to figure out how to make things work.</p>
+                <h3>TrueNAS Setup</h3>
+                <p>I'm using the built in TrueNAS Docker virtualisation system (called "Apps" in TrueNAS). Despite having a library of ~250 community supported containers you can actually pull and run any container from Docker Hub or suchlike with no hassle at all</p>
+                <h3>CUPS Setup</h3>
+                <p>This was the bit that tripped me up the most, getting it actually printing would never succeed and the CUPS error log would show authentication issues (especially when printing from Windows as it doesn't seem able to actually prompt for credentials on Windows). The solution I ended up coming up with was fairly awful, but did work. DISCLAIMER: This disables all the authentication, absolutely all of it including for the admin console. You should only run this configuration on networks you trust inhabited by devices and people you trust implicitly. If you've got a mischievious child, questionable IoT doodad or something else on your network I hold no responsibility for any negative consequences as a consequence of using this configuration. Firstly go to the "Administration" tab, authenticate with the default username and password (admin and printer) click "Edit configuration file" then replace the default file with the following.</p>
+                <code>
+                    # CUPS Configuration File
+
+                    # Listen on all network interfaces (IPv4)
+                    Listen 0.0.0.0:631
+
+                    # Enable printer sharing
+                    Browsing On
+                    BrowseLocalProtocols dnssd
+                    DefaultAuthType None
+
+                    WebInterface Yes
+
+                    # Allow all clients to access printers without authentication
+                    <Location />
+                    Order allow,deny
+                    Allow all
+                    </Location>
+
+                    # Printer operation policies (still allow all for printing)
+                    <Policy default>
+                    <Limit All>
+                        Order allow,deny
+                        Allow all
+                    </Limit>
+                    </Policy>
+
+                </code>
+                <p>Click "Save configuration file" and then wait for it to reboot, once done confirm you can still access the Administration page, it shouldn't prompt you for a password this time.</p>
+                <p>Then you need to add your printer to the CUPS config, assuming a USB printer that you passed through properly when setting up the container you should be able to go to Administration -> Find n</p>
+                
+                <a href="https://link">Link text</a>
+
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="Alt text"></center></p>
+
+            </div>            
+            
+            
+        </section>
+    </div>
+
+</body>
+</html>
