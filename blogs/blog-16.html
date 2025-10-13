@@ -46,18 +46,18 @@
                     WebInterface Yes
 
                     # Allow all clients to access printers without authentication
-                    <Location />
+                    &lt;Location /&gt;
                     Order allow,deny
                     Allow all
-                    </Location>
+                    &lt;/Location&gt;
 
                     # Printer operation policies (still allow all for printing)
-                    <Policy default>
-                    <Limit All>
+                    &lt;Policy default&gt;
+                    &lt;Limit All&gt;
                         Order allow,deny
                         Allow all
-                    </Limit>
-                    </Policy>
+                    &lt;/Limit&gt;
+                    &lt;/Policy&gt;
 
                 </pre>
                 <p>Click "Save configuration file" and then wait for it to reboot, once done confirm you can still access the Administration page, it shouldn't prompt you for a password this time.</p>
