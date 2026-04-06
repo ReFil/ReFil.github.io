@@ -44,18 +44,20 @@
 
                     <div class="mySlidesbox">
                         <div class="numbertextbox">2 / 4</div>
-                        <img src="images/blog-20/day-0/2023-02-23_17_15_15.jpg" style="width:100%">
+                        <img src="images/blog-20/day-0/PXL_20260223_101631933.jpg" style="width:100%">
                     </div>
 
                     <div class="mySlidesbox">
                         <div class="numbertextbox">3 / 4</div>
+                        <img src="images/blog-20/day-0/2023-02-23_17_15_15.jpg" style="width:100%">
+                    </div>
+
+                    <div class="mySlidesbox">
+                        <div class="numbertextbox">4 / 4</div>
                         <img src="images/blog-20/day-0/2026-02-23_17_19_28.jpeg" style="width:100%">
                     </div>
                         
-                    <div class="mySlidesbox">
-                        <div class="numbertextbox">4 / 4</div>
-                        <img src="images/blog-20/day-0/PXL_20260223_101631933.jpg" style="width:100%">
-                    </div>
+                    
 
                         
                     <a class="prevbox" onclick="plusSlides(-1, 0)">❮</a>
@@ -66,18 +68,22 @@
                     </div>
 
                     <div class="rowbox">
+                        
                         <div style="float: left; width: 25%;">
                         <img class="demobox cursorbox" src="images/blog-20/day-0/2023-02-23_10_03_41.jpg" style="width:100%" onclick="currentSlide(1, 0)" alt="The Woods">
                         </div>
+
                         <div style="float: left; width: 25%;">
-                        <img class="demobox cursorbox" src="images/blog-20/day-0/2023-02-23_17_15_15.jpg" style="width:100%" onclick="currentSlide(2, 0)" alt="Cinque Terre">
+                        <img class="demobox cursorbox" src="images/blog-20/day-0/PXL_20260223_101631933.jpg" style="width:100%" onclick="currentSlide(2, 0)" alt="Northern Lights">
+                        </div>
+
+                        <div style="float: left; width: 25%;">
+                        <img class="demobox cursorbox" src="images/blog-20/day-0/2023-02-23_17_15_15.jpg" style="width:100%" onclick="currentSlide(3, 0)" alt="Cinque Terre">
                         </div>
                         <div style="float: left; width: 25%;">
-                        <img class="demobox cursorbox" src="images/blog-20/day-0/2026-02-23_17_19_28.jpeg" style="width:100%" onclick="currentSlide(3, 0)" alt="Mountains and fjords">
+                        <img class="demobox cursorbox" src="images/blog-20/day-0/2026-02-23_17_19_28.jpeg" style="width:100%" onclick="currentSlide(4, 0)" alt="Mountains and fjords">
                         </div>
-                        <div style="float: left; width: 25%;">
-                        <img class="demobox cursorbox" src="images/blog-20/day-0/PXL_20260223_101631933.jpg" style="width:100%" onclick="currentSlide(4, 0)" alt="Northern Lights">
-                        </div>
+                        
 
                     </div>
                 </div>
@@ -123,7 +129,7 @@ function showSlides(n, m) {
   let slideshowcount = document.getElementsByClassName("containerbox");
   let slides = slideshowcount[m].getElementsByClassName("mySlidesbox");
   let dots = slideshowcount[m].getElementsByClassName("demobox");
-  let captionText = slideshowcount[m].getElementById("caption");
+  let captionText = slideshowcount[m].getElementsByClassName("caption-containerbox")[0].getElementsByTagName("p")[0];
   if (n > slides.length) {slideIndex[m] = 1}
   if (n < 1) {slideIndex[m] = slides.length}
   for (i = 0; i < slides.length; i++) {
