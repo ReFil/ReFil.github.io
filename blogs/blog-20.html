@@ -111,11 +111,11 @@ for (let i = 0; i < slidesCount; i++) {
 }
 
 function plusSlides(n, m) {
-  showSlides(slideIndex += n);
+  showSlides(slideIndex[m] += n, m);
 }
 
 function currentSlide(n, m) {
-  showSlides(slideIndex = n);
+  showSlides(slideIndex[m] = n, m);
 }
 
 function showSlides(n, m) {
@@ -123,18 +123,18 @@ function showSlides(n, m) {
   let slideshowcount = document.getElementsByClassName("containerbox");
   let slides = slideshowcount[m].getElementsByClassName("mySlidesbox");
   let dots = slideshowcount[m].getElementsByClassName("demobox");
-  let captionText = slideshowcount[m].getElementById("captionbox");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
+  let captionText = slideshowcount[m].getElementsByClassName("captionbox")[0];
+  if (n > slides.length) {slideIndex[m] = 1}
+  if (n < 1) {slideIndex[m] = slides.length}
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";
   }
   for (i = 0; i < dots.length; i++) {
     dots[i].className = dots[i].className.replace(" active", "");
   }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
-  captionText.innerHTML = dots[slideIndex-1].alt;
+  slides[slideIndex[m]-1].style.display = "block";
+  dots[slideIndex[m]-1].className += " active";
+  captionText.innerHTML = dots[slideIndex[m]-1].alt;
 }
 </script>
     
