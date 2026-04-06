@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willow's Website</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="/index.html" class="home-link">
+                <i class="fas fa-arrow-left"></i> Home
+            </a>
+            <h1 class="page-title">Blog</h1>
+        </div>
+        <div class="border-bottom"></div>
+    </header>
+    
+    <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+        <section class="profile-section">
+            <div class="content-section">
+                <h2>Powering the Gigaset S810H from USB Type C</h2>
+                <p style="font-size: 15px; color: #6d6d6d;">DATE</p>
+                <h3>Headers</h3>
+                <p>One thing i didnt have during my time at 39c3 last year was a DECT phone, and whilst there was the GSM network (for which eSIMs ran out almost immediately) and the SiP network it wasn't very reliable, so for EMF I got some cheap DECT handsets on eBay. Their internal charging dock is a bit of a pain to haul around, so I was thinking it'd be a lot nicer if you could just charge one with USB C, and whilst I'm sure I'm not the first one to do this I hadn't seen any previous attempts at it online, so endeavoured to find out how hard it was (spoiler, not very!)</p>
+                <h3>The Gigaset S810H and its charging dock</h3>
+                <p>In it's day I think the S810H was a rather fancy model from Gigaset, but TBH i chose it because it had the widest compatibility according to the eventphone compatibility list. For £35 for two and two charging docks you can't complain. Like almost all cordlesds phones the S810H uses a pair of NiMH AAA batteries for power, and they get recharged when you put it on the dock. The first thing i did was take a multimeter to the dock and discover it puts out whatever the hell voltage it likes, I dont know if that's a specific issue with my dock but what the power adapter said was 4V out I measured at over 8V once, and 7V another time. Phone doesn't seem to mind though. Next I took the basic charging dock apart (I got one charging only dock and one dock phone line dect base station doodad) and discovered it was literally just two metal contacts, not even a PCB, so that means the charging brains are in the phone.</p>
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="Picture of the inside of the phone dock"></center></p>
+
+                <p>Next step was pop the phone apart and try and figure out how it works, there's not much in them. They have one big monolithic chip that does everything, a memory chip for it and that's most of it. Googling the part number (Insert part number here) wasn'mt very revealing in terms of datasheets but I hunted my way down to a brochure for this family which mentioned integrated charge control capabilities. So there's no external IC that needs hacking or modifying. Given the voltage the base was outputting I decided to just send it and put 5V from my variable power supply to the charger terminals on the bottom of the phone ands it went bloop and started very happily charging up. </p>
+
+                <h3>Fitting a Type C port in it</h3>
+                <p>
+                    Now I knew it just needed DC at the right spot to charge I could get to the more fun part of actually fitting it in, there's not a lot of space in the phone
+                </p>
+                
+                <a href="https://link">Link text</a>
+
+
+            </div>            
+            
+            
+        </section>
+    </div>
+
+</body>
+</html>
