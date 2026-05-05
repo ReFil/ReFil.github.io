@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>3D Printing Filament Tier List</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+  th { background-color: #f4f4f4; }
+  tr:hover { background-color: #f9f9f9; }
+  .tier { font-weight: bold; }
+
+  /* Tooltip styling */
+  .tooltip {
+    position: relative;
+    cursor: help;
+    color: #0077cc;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 280px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -140px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<h2>3D Printing Filament Tier List</h2>
+
+<table>
+  <tr>
+    <th>Tier</th>
+    <th>Filament</th>
+  </tr>
+
+  <!-- S Tier -->
+  <tr>
+    <td class="tier">S</td>
+    <td class="tooltip">CF PLA
+      <span class="tooltiptext">
+        Pros: High detail, low warp, matte finish<br>
+        Cons: Brittle, abrasive nozzle wear
+      </span>
+    </td>
+    <td class="tooltip">Tough PLA
+      <span class="tooltiptext">
+        Pros: Stronger, impact & heat resistant, easy to print<br>
+        Cons: Slightly more expensive
+      </span>
+    </td>
+    <td class="tooltip">High-Speed PLA
+      <span class="tooltiptext">
+        Pros: Very fast printing<br>
+        Cons: Low heat resistance
+      </span>
+    </td>
+    <td class="tooltip">CF PETG
+      <span class="tooltiptext">
+        Pros: Strong, stable, good finish<br>
+        Cons: Needs hardened nozzle
+      </span>
+    </td>
+    <td class="tooltip">PCTG
+      <span class="tooltiptext">
+        Pros: Tough, easy, low warp, strong layers<br>
+        Cons: Expensive, hard to find
+      </span>
+    </td>
+    <td class="tooltip">Glass-Filled Nylon
+      <span class="tooltiptext">
+        Pros: Extremely strong, heat resistant, less warp<br>
+        Cons: Abrasive, needs advanced setup
+      </span>
+    </td>
+    <td class="tooltip">TPU (mid hardness)
+      <span class="tooltiptext">
+        Pros: Flexible, impact-proof, durable<br>
+        Cons: Needs dry filament, sticky
+      </span>
+    </td>
+  </tr>
+
+  <!-- A Tier -->
+  <tr>
+    <td class="tier">A</td>
+    <td class="tooltip">PLA
+      <span class="tooltiptext">
+        Pros: Cheap, easy, great quality<br>
+        Cons: Weak to heat, UV, brittle
+      </span>
+    </td>
+    <td class="tooltip">PETG
+      <span class="tooltiptext">
+        Pros: Tough, heat resistant<br>
+        Cons: Stringing, poor bridging
+      </span>
+    </td>
+    <td class="tooltip">ASA
+      <span class="tooltiptext">
+        Pros: UV/weather resistant, strong<br>
+        Cons: Warping, fumes
+      </span>
+    </td>
+    <td class="tooltip">PC-CF
+      <span class="tooltiptext">
+        Pros: Extremely stiff<br>
+        Cons: Hard to print
+      </span>
+    </td>
+    <td class="tooltip">SEBS
+      <span class="tooltiptext">
+        Pros: Stretchy, smooth prints<br>
+        Cons: Moisture sensitive, tuning needed
+      </span>
+    </td>
+  </tr>
+
+  <!-- B Tier -->
+  <tr>
+    <td class="tier">B</td>
+    <td class="tooltip">Silk PLA
+      <span class="tooltiptext">
+        Pros: Shiny, aesthetic<br>
+        Cons: Weak, clogging risk
+      </span>
+    </td>
+    <td class="tooltip">Wood PLA
+      <span class="tooltiptext">
+        Pros: Realistic texture<br>
+        Cons: Weak, moisture sensitive
+      </span>
+    </td>
+    <td class="tooltip">Matte PLA
+      <span class="tooltiptext">
+        Pros: Nice finish, sandable<br>
+        Cons: Weaker, absorbs moisture
+      </span>
+    </td>
+    <td class="tooltip">Nylon (PA6/PA12)
+      <span class="tooltiptext">
+        Pros: Strong, durable<br>
+        Cons: Warping, moisture issues
+      </span>
+    </td>
+    <td class="tooltip">Polycarbonate
+      <span class="tooltiptext">
+        Pros: Very strong, heat resistant<br>
+        Cons: Hard to print, slow
+      </span>
+    </td>
+  </tr>
+
+  <!-- C Tier -->
+  <tr>
+    <td class="tier">C</td>
+    <td class="tooltip">PMMA (Acrylic)
+      <span class="tooltiptext">
+        Pros: Clear, UV resistant<br>
+        Cons: Brittle, warps
+      </span>
+    </td>
+    <td class="tooltip">Low-soft TPU
+      <span class="tooltiptext">
+        Pros: Very flexible<br>
+        Cons: Hard to print, impractical
+      </span>
+    </td>
+    <td class="tooltip">Nylon Blends
+      <span class="tooltiptext">
+        Pros: Mixed properties<br>
+        Cons: Combined weaknesses
+      </span>
+    </td>
+  </tr>
+
+  <!-- F Tier -->
+  <tr>
+    <td class="tier">F</td>
+    <td class="tooltip">Metal-Filled PLA
+      <span class="tooltiptext">
+        Pros: Aesthetic only<br>
+        Cons: Weak, expensive
+      </span>
+    </td>
+    <td class="tooltip">Polypropylene (PP)
+      <span class="tooltiptext">
+        Pros: Tough in theory<br>
+        Cons: Terrible adhesion, warping
+      </span>
+    </td>
+    <td class="tooltip">HDPE
+      <span class="tooltiptext">
+        Pros: None<br>
+        Cons: Extreme warping, unusable
+      </span>
+    </td>
+    <td class="tooltip">POM (Acetal)
+      <span class="tooltiptext">
+        Pros: Low friction<br>
+        Cons: No adhesion, toxic risk
+      </span>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
