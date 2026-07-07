@@ -828,7 +828,6 @@ function showSlides(n, m) {
   let slideshowcount = document.getElementsByClassName("containerbox");
   let slides = slideshowcount[m].getElementsByClassName("mySlidesbox");
   let dots = slideshowcount[m].getElementsByClassName("demobox");
-  let captionText = slideshowcount[m].getElementsByClassName("caption-containerbox")[0].getElementsByTagName("p")[0];
   if (n > slides.length) {slideIndex[m] = 1}
   if (n < 1) {slideIndex[m] = slides.length}
   for (i = 0; i < slides.length; i++) {
@@ -839,7 +838,6 @@ function showSlides(n, m) {
   }
   slides[slideIndex[m]-1].style.display = "block";
   dots[slideIndex[m]-1].className += " active";
-  captionText.innerHTML = dots[slideIndex[m]-1].alt;
 }
 </script>
     
