@@ -25,7 +25,7 @@
         <section class="profile-section">
             <div class="content-section">
                 <h2>Getting started with embedded rust, the road to blinky</h2>
-                <p style="font-size: 15px; color: #6d6d6d;">DATE</p>
+                <p style="font-size: 15px; color: #6d6d6d;">17th October 2026</p>
                 <p>
                     Whilst I've been fortunate enough to be able to experiment with all sorts of languages on hosted platforms, having to maintain programs and apps written in Go, Kotlin and even PowerBASIC, I'm always conscious that the majority of my embedded programming has been in the safe havens of C and C++. This was probably born out of learning on arduinos back in the good old days of the Uno, then it being the primary language I learnt at university too. I like C, but many of the reasons I like it are also some of its biggest pitfalls. Not many other languages will let you map both a uint64 and array of byte variables to the same actualy memory space and let you tweak both of those simultaneously, and that's not necessarily a bad thing. I can't remember where I originally read this, but somewhere I saw a quote saying C is like a sharp kitchen knife. Extremely capable but you can cut yourself very easily with it. I've battered my head so many times against silent corruption bugs and weird memory things that languages like Rust appeal to me. I've got a fun project idea that spans a few of the domains I'm passionate about, and whilst I could probably very easily do it within my safe confines of Zephyr and STM or nRF platforms, I always want to try new things, and the CH32V203 and Rust sounded like a fun challenge
                 </p>
@@ -41,20 +41,38 @@
 
                 <h3>No blinky :(</h3>
                 <p>
-                    Originally I tried the <a href="https://github.com/CosmoBunny/ws2812-rs">ws2812-rs</a> library after it was the first one that showed up when i searched "WS2812 rust" on kagi. Turns out this may have been unwise as that library has very little uses, there wasn't a complete example that explained all the "use"s you needed to import to make it work so i tried a github code search and found one other public implementation of that driver. After importing things until the errors went away I was treated to the shining light of... nothing at all, the LED was completely black. I realised I'd misinterpreted the level command (Level::Low is actually active high) so i fixed that and then got blinded by the LED being full white. Changing the parameters didn't change the colour of the light at all it was always just retina smeltingly bright. At this point I started looking into the more common smart-leds crate, 
+                    Originally I tried the <a href="https://github.com/CosmoBunny/ws2812-rs">ws2812-rs</a> library after it was the first one that showed up when i searched "WS2812 rust" on kagi. Turns out this may have been unwise as that library has very little uses, there wasn't a complete example that explained all the "use"s you needed to import to make it work so i tried a github code search and found one other public implementation of that driver. After importing things until the errors went away I was treated to the shining light of... nothing at all, the LED was completely black. I realised I'd misinterpreted the level command (Level::Low is actually active high) so i fixed that and then got blinded by the LED being full white. Changing the parameters didn't change the colour of the light at all it was always just retina smeltingly bright. At this point I started looking into the more common smart-leds crate, and trying someones supposedly working example code for my board and that changed the LED from blinding white to blinding green, when I wanted a dim red. Clearly some schenanigans were afoot.
                 </p>
+
+                <h3>How the WS2812 signals</h3>
 
                 <h3>No sub microsecond delays???!?!?!</h3>
                 <p>
-                    Since the bit banging driver depends on accurate timing to sub 1us i had a little look into the delay implementation figuring that may be the issue and oh boy did i find the issue. <a href="https://github.com/ch32-rs/ch32-hal/blob/4fde79288cc052cfb59a0677de403b1ea0e03c09/src/delay/impl_qingke_v2_v4.rs#L65">This line</a> in ch32-hal explains why things were broken. In a decisino seemingly inherited from the rp2040 HAL delays sub microsecond delays are treated as one microsecond. The delay_us handler then converts back down when doing the systick timing. Whilst the 144MHz clocked systick timer would max out at 7ns resolution, that's a lot bettwe than 1000ns. 
+                    Since the bit banging driver depends on accurate timing to sub 1us i had a little look into the delay implementation figuring that may be the issue and oh boy did i find the issue. <a href="https://github.com/ch32-rs/ch32-hal/blob/4fde79288cc052cfb59a0677de403b1ea0e03c09/src/delay/impl_qingke_v2_v4.rs#L65">This line</a> in ch32-hal explains why things were broken. In a decisino seemingly inherited from the rp2040 HAL delays sub microsecond delays are treated as one microsecond. The delay_us handler then converts back down a bit when doing the systick timing. Whilst the 144MHz clocked systick timer would max out theoretically at 7ns resolution, that's a lot better than 1000ns and good enough for WS2812s.
                 </p>
                 <p>
-
+                    One thing to keep in mind is that all the delay setup function calls, even simple maths operations like multiple and especially divide all take clock cycles, and each clock cycle is 7ns so I hacked together a pretty crude start and 
                 </p>
-
                 <p>
-
+                    I don't have any really fast measurement equipment at home, my scope says it's 100MHz bandwidth at 1GS but I do not believe that it's telling the truth, it was about 40 quid to be fair. If I was doing this for work I could crack out the 6GHz or even the 8GHz scope worth more than all my worldly possessions combined, but that does seem a bit unnecessary for debugging a board that cost me about £5 delivered. My logic analyser maxes out at 100MHz sampling which would give 10ns resolution, and that's the best I've got so I switched my code to output square waves on an arbitrary pin and got to measuring. I set up a loop that would toggle the pin, then delay then toggle incrementing the delay each time in 50ns increments and the results were really interesting.
                 </p>
+                
+                <p>
+                    I had massively and completely underestimated the time taken for the setup of the delay. I suspect the additional delay was in the subtraction and timer setup operations but the slowest delay I could actually get out the thing was ~300ns. This is obviously cutting it a bit fine with the 300ns timing of WS2812s, but there was another problem, my very crude hacking to try and compensate for the delay setup time meant delays of less than 150ns would underflow an in t and panic the part. This could be addressed but added additional delays, slowing things down a little. 
+                </p>
+
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="A waveform of the final timing, showing a consistent width for the first 6 pulses then slowly increasing width"></center></p>
+
+
+                <h3>Blinky!</h3>
+                <p>
+                    After forking and hacking around with the delay ws2812 driver too to turn the delay down but not all the way down that the "slow" feature did I was finally able to illuminate the LED, but I didn't wnt to maintain two crates, one of which had an inacurate delay and another that exploited that, so I redid some of my maths in the delay function such that a delay_ns call was a fairly faithful delay until 380ns when it just stopped decreasing. That was the best I could do and should be more than good enough. WS2812 bitbanging is about the only application I can think of that needs this sort of timing on a microcontroller this wimpy anyway.
+                </p>
+
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="rainbow led blinky"></center></p>
+
+
+                <p>Since my timing is just just barely acceptable sometimes it does fall out that window and there's a frame where the LED flashes bright white, this may be tweakable out with some minor optimisations in the HAL but for now i'm done with fiddling, 99% of the time it works every time and that's good enough for me.</p>
 
                 <h3>Final thoughts</h3>
 
