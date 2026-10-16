@@ -45,23 +45,26 @@
                 </p>
 
                 <h3>How the WS2812 signals</h3>
+                <p>
+                    Before needing to figure it out for this i'd never really appreciated how the WS2812 signals, i'd always just taken for granted that it worked with whatever random library i'd grab for whatever platform I was using, but it's a pretty interesting protocol. <a href="https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf">The LED Datasheet</a> has all the information you need to figure it out. 1's and 0's are signalled by a high-low pulse with timings ~300ns high ~800ns low for a 0 and ~800ns high ~800ns low for a 1. You then assemble your RGB values into a a 24 bit collection in the order GRB, one collection for each led in the chain, then you send it out to the LED chain. The first LED shifts the bits into it's RGB controller, swallows the first 24 bit collection and forwards the rest out, and this continues until the chain has been exhausted, which is meant to be a max of 256 leds long, at which point the LEDs start repeating the first one. With this knowledge in mind it makes sense why timing issues can present with the LED being all white. If you can't signal fast enough to send a zero it gets interpreted as a 1, so you're sending a full chain of 1's and getting blasted in the eyeballs like an Audi is driving towards you at night
+                </p>
 
                 <h3>No sub microsecond delays???!?!?!</h3>
                 <p>
-                    Since the bit banging driver depends on accurate timing to sub 1us i had a little look into the delay implementation figuring that may be the issue and oh boy did i find the issue. <a href="https://github.com/ch32-rs/ch32-hal/blob/4fde79288cc052cfb59a0677de403b1ea0e03c09/src/delay/impl_qingke_v2_v4.rs#L65">This line</a> in ch32-hal explains why things were broken. In a decisino seemingly inherited from the rp2040 HAL delays sub microsecond delays are treated as one microsecond. The delay_us handler then converts back down a bit when doing the systick timing. Whilst the 144MHz clocked systick timer would max out theoretically at 7ns resolution, that's a lot better than 1000ns and good enough for WS2812s.
+                    Since the bit banging driver depends on accurate timing to sub 1us i had a little look into the delay implementation figuring that may be the issue and oh boy did i find the issue. <a href="https://github.com/ch32-rs/ch32-hal/blob/4fde79288cc052cfb59a0677de403b1ea0e03c09/src/delay/impl_qingke_v2_v4.rs#L65">This line</a> in ch32-hal explains why things were broken. In a decisino seemingly inherited from the rp2040 HAL delays, sub microsecond delays are treated as one microsecond. The delay_us handler then converts back down a bit when doing the systick timing. Whilst the 144MHz clocked systick timer would max out theoretically at 7ns resolution, that's a lot better than 1000ns and good enough for WS2812s.
                 </p>
                 <p>
-                    One thing to keep in mind is that all the delay setup function calls, even simple maths operations like multiple and especially divide all take clock cycles, and each clock cycle is 7ns so I hacked together a pretty crude start and 
+                    One thing to keep in mind is that all the delay setup function calls, even simple maths operations like multiple and especially divide all take clock cycles, and each clock cycle is 7ns so I hacked together a pretty crude start and gave it a go, and it didn't work at all. I was still just getting the LED on full white brightness. Unfortunately it would not be as simple as first thought (I always think it will be and never learn my lesson) so it was time to crack out the actual measurement equipment and figure out what was actually happening.
                 </p>
                 <p>
-                    I don't have any really fast measurement equipment at home, my scope says it's 100MHz bandwidth at 1GS but I do not believe that it's telling the truth, it was about 40 quid to be fair. If I was doing this for work I could crack out the 6GHz or even the 8GHz scope worth more than all my worldly possessions combined, but that does seem a bit unnecessary for debugging a board that cost me about £5 delivered. My logic analyser maxes out at 100MHz sampling which would give 10ns resolution, and that's the best I've got so I switched my code to output square waves on an arbitrary pin and got to measuring. I set up a loop that would toggle the pin, then delay then toggle incrementing the delay each time in 50ns increments and the results were really interesting.
+                    I don't have any really fast measurement equipment at home, my scope says it's 100MHz bandwidth at 1GS but I do not believe that it's telling the truth, it was about 40 quid to be fair. My logic analyser maxes out at 100MHz sampling which would give 10ns resolution, and that's the best I had to hand so I switched my code to output square waves on an arbitrary pin and got to measuring. I set up a loop that would toggle the pin, then delay then toggle incrementing the delay each time in 50ns increments and the results were really interesting.
                 </p>
                 
                 <p>
-                    I had massively and completely underestimated the time taken for the setup of the delay. I suspect the additional delay was in the subtraction and timer setup operations but the slowest delay I could actually get out the thing was ~300ns. This is obviously cutting it a bit fine with the 300ns timing of WS2812s, but there was another problem, my very crude hacking to try and compensate for the delay setup time meant delays of less than 150ns would underflow an in t and panic the part. This could be addressed but added additional delays, slowing things down a little. 
+                    I had massively and completely underestimated the time taken for the setup of the delay. I suspect the additional delay was in the subtraction and timer setup operations but the slowest delay I could actually get out the thing was ~300ns. This is obviously cutting it a bit fine with the 300ns timing of WS2812s, but there was another problem, my very crude hacking to try and compensate for the delay setup time meant delays of less than 150ns would underflow an in t and panic the program. This could be addressed but added additional delays, slowing things down a little.
                 </p>
 
-                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="A waveform of the final timing, showing a consistent width for the first 6 pulses then slowly increasing width"></center></p>
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-28/LeCroy--00006.jpg" alt="A waveform of the final timing, showing a consistent width for the first 6 pulses then slowly increasing width"></center></p>
 
 
                 <h3>Blinky!</h3>
@@ -69,7 +72,7 @@
                     After forking and hacking around with the delay ws2812 driver too to turn the delay down but not all the way down that the "slow" feature did I was finally able to illuminate the LED, but I didn't wnt to maintain two crates, one of which had an inacurate delay and another that exploited that, so I redid some of my maths in the delay function such that a delay_ns call was a fairly faithful delay until 380ns when it just stopped decreasing. That was the best I could do and should be more than good enough. WS2812 bitbanging is about the only application I can think of that needs this sort of timing on a microcontroller this wimpy anyway.
                 </p>
 
-                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="rainbow led blinky"></center></p>
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-28/blinky.gif" alt="rainbow led blinky (and the future project)"></center></p>
 
 
                 <p>Since my timing is just just barely acceptable sometimes it does fall out that window and there's a frame where the LED flashes bright white, this may be tweakable out with some minor optimisations in the HAL but for now i'm done with fiddling, 99% of the time it works every time and that's good enough for me.</p>
@@ -79,10 +82,14 @@
                 <p>
                     Despite how tedious getting this working was I think I will stick with this for the project I have in mind, starting out into uncharted territories is always a bit frustrating and i'm just glad to have solved the issue. One thing that does surprise me coming from C is the number of crates you need for a basic ws2812 blinky. My program has a few additional unnecessarily crates that I know i'll need later on but still, 100 crates for a basic blinky with the ws2812 is quite a lot. it somewhat reminds me of the infamous left-pad incident, but maybe that's just the old crusty C programmer in my brain talking. The benefits of all these crates is other people have done the hard part for me, and I don't need to reimplement things.
                 </p>
-                
-                <a href="https://link">Link text</a>
 
-                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-x/picture" alt="Alt text"></center></p>
+                <h3>Postscript</h3>
+
+                <p>
+                    The day after getting this all working I had a brainwave on the way to work, instead of wasting cycles setting up the systick counter for the really short delays I could just for loop for a bit to use those 7ns cpu cycles. I hooked my board up to the really fast scope at work and had a look at my original timing. The first thing i discovered was my 380ns delay was actually more like 420ns, and also the waveform was.... a bit iffy, but seems to work fine. My first attempt at a loop was using the rust spin_loop hint but that takes 50ns to execute so was throwing my timings way off. Then I used inline unsafed NOP operations which was somehow even worse???? I wonder if the jump to unsafe slowed it down or something. In the end I settled for there being two delays slower than 400ns, through the power of "just do some unnecessary maths lol" I managed to get a stable 250ns pulse and 200ns pulse, and that was good enough for me. the LED now never misses a beat and you should be able to bitbang 2.5MHz protocols now if you really wanted to.
+                </p>
+                
+                <p><center><img style="max-width: 100%; height: auto; width: auto;" src="images/blog-28/LeCroy--00007.jpg" alt="the actual final timing, with better timing at the very fast side"></center></p>
 
             </div>            
             
