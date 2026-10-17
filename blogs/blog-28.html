@@ -70,6 +70,14 @@
                     After I'd suffered through getting it working manually i found that cargo has a templating system called cargo-generate which can create the boilerplate starting point for you, you need a template available for your hal, which fortunately does exist for the ch32 hal, which can be found <a href="https://github.com/ch32-rs/ch32-hal-template">here</a>. This uses the wlink runner which you may want to change to probe-rs or wchisp but other than that gets all these files made for you with much less effort than doing it manually. 
                 </p>
 
+                <h3>The 224KB of flash and the accompanying massive trap</h3>
+                <p>
+                    I treid compiling some of the example code for the board using <code>cargo run</code>, and absolutely none of it would compile, not even the basic blinky. The linking kept failing with errors saying the size of the blinky binary was 40kb and the flash was overfilled by 8kb, but the chip advertises 224kb of flash so whats happening? It turns out the CH32V203 actually has two flash sections, 32kb of main fast flash and then an addition 192kb of flash that you can use as program flash with XIP support, but it wont execute as fast as the main flash. The default memory.x file only addresses the first 32kb of flash by default.
+                </p>
+                <p>
+                    It turns out you must must must compile all embedded rust programs using <code>cargo run --release</code>, so it builds with the release flag. This dramatically reduces the flash consumption to a far more rational amount. The final blinky binary takes 4kb when compiled with release but over 50kb when compiled with debug!
+                </p>
+
                 <h3>No blinky :(</h3>
                 <p>
                     Originally I tried the <a href="https://github.com/CosmoBunny/ws2812-rs">ws2812-rs</a> library after it was the first one that showed up when i searched "WS2812 rust" on kagi. Turns out this may have been unwise as that library has very little uses, there wasn't a complete example that explained all the "use"s you needed to import to make it work so i tried a github code search and found one other public implementation of that driver. After importing things until the errors went away I was treated to the shining light of... nothing at all, the LED was completely black. I realised I'd misinterpreted the level command (Level::Low is actually active high) so i fixed that and then got blinded by the LED being full white. Changing the parameters didn't change the colour of the light at all it was always just retina smeltingly bright. At this point I started looking into the more common smart-leds crate, and trying someones supposedly working example code for my board and that changed the LED from blinding white to blinding green, when I wanted a dim red. Clearly some schenanigans were afoot.
