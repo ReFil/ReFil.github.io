@@ -32,11 +32,42 @@
 
                 <h3>Embedded Rust and Embassy</h3>
                 <p>
-                    I've played with rust for the 2025 AOC, and spent some time going through the Rust book to get started on it, and in general quite enjoyed the process. Getting 5000 errors at compile time is frustrating but in general when the code compiles it does something, which is a nice change from C's crapshoot as to whether it'll just fail silently and weirdly. 
+                    I've played with rust for the 2025 AOC, and spent some time going through the Rust book to get started on it, and in general quite enjoyed the process. Getting 5000 errors at compile time is frustrating but in general when the code compiles it does something, which is a nice change from C's crapshoot as to whether it'll just fail silently and weirdly. Embassy seems like the go to framework for using it on embedded platforms, and I'm very intrigued by the painless async loops, from the sounds of it you can get close to RTOS functionality without actually having to deal with the pain of setting up a full RTOS (don't get me wrong I love zephyr, but for simple projects it is quite the pain to get set up). Embassy has official HALs for most of the usual suspects, the nRFs, STM32 and RP2xxx microcontrollers as well as some more esoteric ones, and there's also unofficial HALs for other platforms like the ESP32, ch32 and some more quirky microcontrollers. I am a fan of the ch32, with V003s in several projects of mine, so I thought I'd step up to a fancier one, the V203. No more bitbang usb, this has an honest to god usb peripheral, and storage, and a USB bootloader, and up to 224kb of program storage (but more on that later). It's marked as the best supported in the ch32-hal, so i pulled the relevant crates and tried setting it up, how hard can it be right?
                 </p>
                 <h3>Getting set up</h3>
                 <p>
-                    This feels way harder than it has any right to be, really not helped by a near
+                    This feels way harder than it has any right to be, really not helped by a near complete absence of documentation. I'm sure this stuff is obvious to seasons rusticians but it felt like a deeply unnecessary hurdle to me and none of my frantic searching for "ch32-hal getting started" really turned up anything good. In a project folder you need to create 6 files before cargo will start doing its job, and there's also a massive trap that nobody mentions.
+                </p>
+
+                    <h4>Cargo.toml</h4>
+                    <p>
+                        This is the project definition file, it has three sections. [project] defines the project name (the same as is generated when you run <code>cargo new <em>program-name</em></code>), the version (i believe used if other people pull your crate) and the edition, which means the year release of rust it needs, not the year it was made , so it should be 2024. The next section is [dependencies] which as the name implies are all the crates you need to build your project, at a minimum you need the hal and the embassy executor nd a few other things, I basically just stole the dependencies from the example code in the ch32-hal Cargo.toml file then removed the ones i didn't need and added the ones I did. Crate dependencies can have "features", which can really alter their behavior. After the dependencies come the [profiles], which are basically the compiler flags for different build modes. I originally used the ones from the example code but changed them out later.
+                    </p>
+
+                    <h4>memory.x</h4>
+                    <p>
+                        This is the equivalent of the .ld file, defining all the flash sectors and interupt handlers and things along those lines. This can be directly copied from the ch32-hal example code for your specific microcontroller without any issues.
+                    </p>
+
+                    <h4>riscv32imfc-unknown-none-elf.json</h4>
+                    <p>
+                        This defines some architecture stuff, once again it can be copied from the example code, however note there are a few different variants depending on which microcontroller you're using as they use slightly different flavours of the RISC-V architecture
+                    </p>
+
+                    <h4>build.rs</h4>
+                    <p>
+                        This has the specific sequence of commands required to build the actual firmware, it doesnt seem to be different microcontroller to microcontroller.
+                    </p>
+
+                    <h4>.cargo/config.toml</h4>
+                    <p>This has some build command and more importantly the flashing command. If you're using a debug adapter like the WCHlink-e then probe-rs is the best choice but it doesn't need to have support for the usb bootloader the adafruit ch32 board i'm using seems to use so I had to run <code>cargo install wchisp</code> and set <code>runner = "wchisp flash"</code> in config.toml</p>
+
+                    <h4>src/main.rs</h4>
+                    <p>This is where your program all starts. There's a few mandatory bits you need, you have to start with </p>
+
+                <h3>The easy way to start</h3>
+                <p>
+                    After I'd suffered through getting it working manually i found that cargo has a templating system called cargo-generate which can create the boilerplate starting point for you, you need a template available for your hal, which fortunately does exist for the ch32 hal, which can be found <a href="https://github.com/ch32-rs/ch32-hal-template">here</a>. This uses the wlink runner which you may want to change to probe-rs or wchisp but other than that gets all these files made for you with much less effort than doing it manually. 
                 </p>
 
                 <h3>No blinky :(</h3>
