@@ -383,3 +383,10 @@ img {
 .thumbnailbox:hover {
   opacity: 1;
 }
+
+code {
+  background-color: #eeeeee;
+  border-radius: 3px;
+  font-family: "Source Code Pro", monospace;
+  padding: 0 3px;
+}
